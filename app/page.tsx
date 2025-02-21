@@ -93,13 +93,13 @@ export default function Page() {
     { icon: <DollarSign className="h-4 w-4" />, label: "Price Range" },
   ]
 
-  const handleEscape = () => {
+  const handleEscape = useCallback(() => {
     setIsSearchMode(false)
     setSearchQuery("")
     setSearchResults([])
-  }
+  }, [])
 
-  const handleSearchFocus = () => {
+  const handleSearchClick = () => {
     setIsAnimating(true)
     setIsSearchMode(true)
   }
@@ -141,6 +141,20 @@ export default function Page() {
       return () => clearTimeout(timer)
     }
   }, [isAnimating])
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleEscape()
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [handleEscape])
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const x = e.clientX / window.innerWidth
@@ -187,11 +201,11 @@ export default function Page() {
       {/* Escape Button */}
       <button
         onClick={handleEscape}
-        className={`fixed right-8 top-8 z-20 text-[#2A0A0A]/60 transition-all duration-700 ease-out hover:text-[#2A0A0A]
+        className={`fixed right-8 top-8 z-20 text-[#2A0A0A]/60 transition-all duration-700 ease-out hover:text-[#2A0A0A] font-inter
           ${isSearchMode ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}
         `}
       >
-        <span className="mr-2 text-sm font-light tracking-wider">ESC</span>
+        <span className="mr-2 text-sm font-light tracking-wider font-inter">CLOSE</span>
         <X className="inline-block h-4 w-4" />
         <span className="sr-only">Exit search</span>
       </button>
@@ -242,7 +256,7 @@ export default function Page() {
             {/* Search Results */}
             <div className="h-1/3 px-8 overflow-auto">
               {isLoading ? (
-                <div className="text-[#2A0A0A] text-xl font-light">{loadingPhrase}</div>
+                <div className="text-[#2A0A0A] text-xl font-light font-inter">{loadingPhrase}</div>
               ) : searchResults.length > 0 ? (
                 <div className="w-full space-y-4">
                   {searchResults.map((wine) => (
@@ -257,7 +271,7 @@ export default function Page() {
                 </div>
               ) : (
                 searchQuery && (
-                  <div className="text-[#2A0A0A] text-xl font-light">
+                  <div className="text-[#2A0A0A] text-xl font-light font-inter">
                     No matches, but there's always more in the cellar!
                   </div>
                 )
@@ -268,48 +282,83 @@ export default function Page() {
 
         {/* Right Column - Content */}
         <div className="relative flex min-h-screen items-center px-8 md:px-12 lg:px-16">
-          {/* Logo */}
-          <h1
-            className={`absolute font-serif text-6xl font-light tracking-wider text-[#2A0A0A] transition-all duration-700 ease-out
+          {/* Logo and Content */}
+          <div
+            className={`absolute transition-all duration-700 ease-out
               ${
                 isSearchMode
-                  ? "top-16 scale-95 opacity-80"
-                  : "top-[calc(50%-8rem)] -translate-y-1/2 scale-100 opacity-100"
+                  ? "opacity-0 invisible"
+                  : "opacity-100 visible top-[calc(50%-12rem)] -translate-y-1/2 scale-100"
               }
             `}
           >
-            Liberty
-          </h1>
+            <h1 className="text-heading-lg font-sans text-[#2A0A0A] leading-none">Liberty</h1>
+            <h2 className="font-serif italic text-subheading text-[#2A0A0A]/80 mt-2">Social Wine Club</h2>
+            <p className="mt-6 font-sans text-body text-[#2A0A0A]/70 max-w-[400px]">
+              You now have over 3,000 wines at your fingertips, each selected for their exceptionality. Browse if you're
+              open to possibility, or search if you have some idea of what you're thirsting for.
+            </p>
+
+            {/* Horizontal Line */}
+            <div className="mt-8 h-px w-full bg-[#2A0A0A]/20" />
+
+            {/* Two-Column Button Layout */}
+            <div className="mt-8 grid grid-cols-2">
+              {/* Explore Column */}
+              <Link
+                href="/explore"
+                className="group flex flex-col items-start text-left transition-all duration-300 hover:opacity-80 border-r border-[#2A0A0A]/20 pr-8"
+              >
+                <Wine className="h-12 w-12 mb-4 text-[#2A0A0A]" />
+                <p className="font-serif italic text-lg text-[#2A0A0A]/80 mb-2">Open to possibility?</p>
+                <p className="font-sans font-bold text-[#2A0A0A]">Explore our collection</p>
+              </Link>
+
+              {/* Search Column */}
+              <button
+                onClick={handleSearchClick}
+                className="group flex flex-col items-start text-left transition-all duration-300 hover:opacity-80 pl-8"
+              >
+                <Search className="h-12 w-12 mb-4 text-[#2A0A0A]" />
+                <p className="font-serif italic text-lg text-[#2A0A0A]/80 mb-2">Looking for something?</p>
+                <p className="font-sans font-bold text-[#2A0A0A]">Search our inventory</p>
+              </button>
+            </div>
+          </div>
 
           {/* Search Bar and Filters Container */}
           <div
             className={`absolute max-w-md transition-all duration-700 ease-out
-              ${isSearchMode ? "top-36" : "top-[calc(50%-4rem)] translate-y-0"}
+              ${isSearchMode ? "top-28" : "top-[calc(50%-2rem)] translate-y-0"}
             `}
           >
-            {/* Search Input */}
-            <div className="relative mb-8">
-              <Search
-                className={`absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 transform text-[#2A0A0A]/60 transition-all duration-700 ease-out
-                  ${isSearchMode ? "scale-110" : "scale-100"}
-                `}
-              />
-              <Input
-                type="search"
-                placeholder="Search our collection..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={`rounded-none border-t-0 border-x-0 border-b border-[#2A0A0A]/20 bg-transparent pl-8 pr-2 text-[#2A0A0A] outline-none 
-                  placeholder:text-[#2A0A0A]/60 hover:border-[#2A0A0A]/40 focus:border-[#2A0A0A] focus:ring-0 focus-visible:ring-0 
-                  focus-visible:ring-offset-0 transition-all duration-700 ease-out
-                  ${isSearchMode ? "text-lg" : "text-base"}
-                `}
-                onFocus={handleSearchFocus}
-              />
-            </div>
+            {/* Search Header */}
+            <h1
+              className={`text-heading font-sans text-[#2A0A0A] leading-none mb-8 transition-all duration-700 ease-out
+                ${isSearchMode ? "opacity-100 visible font-inter" : "opacity-0 invisible h-0 mb-0"}
+              `}
+            >
+              Search
+            </h1>
+
+            {/* Search Input (visible only in search mode) */}
+            {isSearchMode && (
+              <div className="relative mb-8">
+                <Search className="absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 transform text-[#2A0A0A]/60" />
+                <Input
+                  type="search"
+                  placeholder="Search our collection..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="rounded-none border-t-0 border-x-0 border-b border-[#2A0A0A]/20 bg-transparent pl-8 pr-2 text-[#2A0A0A] outline-none 
+                    placeholder:text-[#2A0A0A]/60 hover:border-[#2A0A0A]/40 focus:border-[#2A0A0A] focus:ring-0 focus-visible:ring-0 
+                    focus-visible:ring-offset-0 text-lg font-inter"
+                />
+              </div>
+            )}
 
             {/* Filters */}
-            <div className={`space-y-4 ${isSearchMode ? "mt-8" : "mt-0"} transition-all duration-700`}>
+            <div className={`space-y-4 ${isSearchMode ? "mt-8" : "mt-0"} transition-all duration-700 font-inter`}>
               {filters.map((filter, index) => (
                 <div
                   key={filter.label}
@@ -323,7 +372,7 @@ export default function Page() {
                 >
                   <button className="group flex w-full items-center gap-3 py-2 text-[#2A0A0A]/60 transition-colors hover:text-[#2A0A0A]">
                     {filter.icon}
-                    <span className="text-sm font-light">{filter.label}</span>
+                    <span className="text-sm font-light font-inter">{filter.label}</span>
                   </button>
                   {index < filters.length - 1 && <div className="mt-4 h-px w-full bg-[#2A0A0A]/10" />}
                 </div>
@@ -331,27 +380,40 @@ export default function Page() {
             </div>
           </div>
 
-          {/* Explore Button */}
-          <Button
-            variant="ghost"
-            size="lg"
-            className={`absolute w-fit border border-[#2A0A0A]/20 text-[#2A0A0A] transition-all duration-700 ease-out 
-              hover:border-[#2A0A0A]/40 hover:bg-[#2A0A0A]/10
-              ${
-                isSearchMode || isAnimating
-                  ? "opacity-0 invisible translate-y-4"
-                  : "opacity-100 visible translate-y-0 top-[calc(50%+8rem)]"
-              }
-            `}
-            asChild
+          {/* Explore and Search Buttons */}
+          <div
+            className={`absolute flex flex-col gap-4 transition-all duration-700 ease-out
+            ${
+              isSearchMode || isAnimating
+                ? "opacity-0 invisible translate-y-4"
+                : "opacity-100 visible translate-y-0 top-[calc(50%+12rem)]"
+            }
+          `}
           >
-            <Link href="/explore">
-              <Wine className="mr-2 h-4 w-4 transition-transform duration-500 group-hover:rotate-12" />
-              Explore Our Collection
-            </Link>
-          </Button>
+            <Button
+              variant="ghost"
+              size="lg"
+              className="w-fit border border-[#2A0A0A]/20 text-[#2A0A0A] hover:border-[#2A0A0A]/40 hover:bg-[#2A0A0A]/10 font-sans text-cta"
+              asChild
+            >
+              <Link href="/explore">
+                <Wine className="mr-2 h-4 w-4 transition-transform duration-500 group-hover:rotate-12" />
+                Explore Our Collection
+              </Link>
+            </Button>
+            <Button
+              variant="ghost"
+              size="lg"
+              className="w-fit border border-[#2A0A0A]/20 text-[#2A0A0A] hover:border-[#2A0A0A]/40 hover:bg-[#2A0A0A]/10 font-sans text-cta"
+              onClick={handleSearchClick}
+            >
+              <Search className="mr-2 h-4 w-4" />
+              Search Our Collection
+            </Button>
+          </div>
         </div>
       </div>
     </main>
   )
 }
+

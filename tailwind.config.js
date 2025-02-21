@@ -18,7 +18,16 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        serif: ["Playfair Display", "serif"],
+        sans: ["var(--font-inter)"],
+        serif: ["var(--font-playfair)"],
+      },
+      fontSize: {
+        "heading-lg": ["3.5rem", { lineHeight: "1.1", fontWeight: "700" }],
+        heading: ["3rem", { lineHeight: "1.1", fontWeight: "700" }],
+        subheading: ["1.5rem", { lineHeight: "1.3", fontWeight: "400" }],
+        body: ["1.125rem", { lineHeight: "1.6", fontWeight: "400" }],
+        section: ["1.5rem", { lineHeight: "1.4", fontWeight: "400" }],
+        cta: ["1.25rem", { lineHeight: "1.4", fontWeight: "600" }],
       },
       colors: {
         border: "hsl(var(--border))",

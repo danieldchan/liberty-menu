@@ -1,5 +1,3 @@
-// components/SuggestedPicks.tsx
-
 "use client"
 
 import type React from "react"
