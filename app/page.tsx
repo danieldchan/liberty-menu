@@ -7,8 +7,6 @@ import { Search, X, Wine, Calendar, Building2, Globe2, MapPin, Grape, DollarSign
 import Image from "next/image"
 import Link from "next/link"
 import debounce from "lodash/debounce"
-
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import SuggestedPicks from "@/components/SuggestedPicks"
 
@@ -211,9 +209,9 @@ export default function Page() {
       </button>
 
       {/* Content Container */}
-      <div className="relative z-10 min-h-screen md:grid md:grid-cols-2">
+      <div className="relative z-10 min-h-screen md:grid md:grid-cols-[35%_65%]">
         {/* Left Column - Home Image / Suggested Picks / Search Results */}
-        <div className="hidden md:flex flex-col items-center justify-center relative overflow-hidden">
+        <div className="hidden md:flex flex-col items-center justify-center relative overflow-hidden md:pl-[15%]">
           {/* Home Image */}
           <div
             className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ease-in-out 
@@ -221,7 +219,7 @@ export default function Page() {
             `}
           >
             <div
-              className="relative w-[300px] h-[600px] transition-transform duration-300 ease-out"
+              className="relative w-[300px] h-[600px] transition-transform duration-300 ease-out mx-auto"
               style={{
                 transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
               }}
@@ -281,15 +279,11 @@ export default function Page() {
         </div>
 
         {/* Right Column - Content */}
-        <div className="relative flex min-h-screen items-center px-8 md:px-12 lg:px-16">
+        <div className="relative flex min-h-screen items-center justify-center px-8 md:pl-12 md:pr-[11.375%] lg:pl-16">
           {/* Logo and Content */}
           <div
-            className={`absolute transition-all duration-700 ease-out
-              ${
-                isSearchMode
-                  ? "opacity-0 invisible"
-                  : "opacity-100 visible top-[calc(50%-12rem)] -translate-y-1/2 scale-100"
-              }
+            className={`transition-all duration-700 ease-out
+              ${isSearchMode ? "opacity-0 invisible absolute" : "opacity-100 visible"}
             `}
           >
             <h1 className="text-heading-lg font-sans text-[#2A0A0A] leading-none">Liberty</h1>
@@ -328,8 +322,8 @@ export default function Page() {
 
           {/* Search Bar and Filters Container */}
           <div
-            className={`absolute max-w-md transition-all duration-700 ease-out
-              ${isSearchMode ? "top-28" : "top-[calc(50%-2rem)] translate-y-0"}
+            className={`max-w-md transition-all duration-700 ease-out
+              ${isSearchMode ? "opacity-100 visible" : "opacity-0 invisible absolute"}
             `}
           >
             {/* Search Header */}
@@ -378,38 +372,6 @@ export default function Page() {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Explore and Search Buttons */}
-          <div
-            className={`absolute flex flex-col gap-4 transition-all duration-700 ease-out
-            ${
-              isSearchMode || isAnimating
-                ? "opacity-0 invisible translate-y-4"
-                : "opacity-100 visible translate-y-0 top-[calc(50%+12rem)]"
-            }
-          `}
-          >
-            <Button
-              variant="ghost"
-              size="lg"
-              className="w-fit border border-[#2A0A0A]/20 text-[#2A0A0A] hover:border-[#2A0A0A]/40 hover:bg-[#2A0A0A]/10 font-sans text-cta"
-              asChild
-            >
-              <Link href="/explore">
-                <Wine className="mr-2 h-4 w-4 transition-transform duration-500 group-hover:rotate-12" />
-                Explore Our Collection
-              </Link>
-            </Button>
-            <Button
-              variant="ghost"
-              size="lg"
-              className="w-fit border border-[#2A0A0A]/20 text-[#2A0A0A] hover:border-[#2A0A0A]/40 hover:bg-[#2A0A0A]/10 font-sans text-cta"
-              onClick={handleSearchClick}
-            >
-              <Search className="mr-2 h-4 w-4" />
-              Search Our Collection
-            </Button>
           </div>
         </div>
       </div>
