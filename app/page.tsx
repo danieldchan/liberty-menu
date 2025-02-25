@@ -26,6 +26,7 @@ import PourAndPlay from "@/components/zine/PourAndPlay"
 import GoodReads from "@/components/zine/GoodReads"
 import Wine101 from "@/components/zine/Wine101"
 import UpcomingEvents from "@/components/zine/UpcomingEvents"
+import { MainNav } from "@/components/nav/MainNav"
 
 // Mock wine data for demonstration
 const wineData = [
@@ -95,15 +96,15 @@ const filterFadeIn = {
   },
 }
 
-export default function Page() {
-  const [isSearchMode, setIsSearchMode] = useState(false)
-  const [isAnimating, setIsAnimating] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [searchResults, setSearchResults] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [loadingPhrase, setLoadingPhrase] = useState("")
-  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 })
-
+const SearchOverlay: React.FC<{
+  isOpen: boolean
+  onClose: () => void
+  searchQuery: string
+  setSearchQuery: (query: string) => void
+  searchResults: any[]
+  isLoading: boolean
+  loadingPhrase: string
+}> = ({ isOpen, onClose, searchQuery, setSearchQuery, searchResults, isLoading, loadingPhrase }) => {
   const filters = [
     { icon: <Wine className="h-4 w-4" />, label: "Wine Type" },
     { icon: <Calendar className="h-4 w-4" />, label: "Vintage" },
@@ -114,6 +115,111 @@ export default function Page() {
     { icon: <DollarSign className="h-4 w-4" />, label: "Price Range" },
   ]
 
+  return (
+    <div
+      className={`fixed inset-0 z-50 transition-opacity duration-300 ${
+        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
+      style={{
+        backgroundImage: `url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-84jd3ucYE1UpR9L7sGyNmNrvtZgthU.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-md" />
+      <div className="relative z-10 container mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-heading font-sans text-[#2A0A0A] leading-none font-inter">Search</h1>
+          <button
+            onClick={onClose}
+            className="text-[#2A0A0A]/60 transition-all duration-300 hover:text-[#2A0A0A] font-inter"
+          >
+            <span className="mr-2 text-sm font-light tracking-wider font-inter">CLOSE</span>
+            <X className="inline-block h-4 w-4" />
+            <span className="sr-only">Exit search</span>
+          </button>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <div>
+            <div className="relative mb-8">
+              <Search className="absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 transform text-[#2A0A0A]/60" />
+              <Input
+                type="search"
+                placeholder="Search our collection..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="rounded-none border-t-0 border-x-0 border-b border-[#2A0A0A]/20 bg-transparent pl-8 pr-2 text-[#2A0A0A] outline-none 
+                  placeholder:text-[#2A0A0A]/60 hover:border-[#2A0A0A]/40 focus:border-[#2A0A0A] focus:ring-0 focus-visible:ring-0 
+                  focus-visible:ring-offset-0 text-lg font-inter"
+              />
+            </div>
+
+            <div className="space-y-4 transition-all duration-700 font-inter">
+              {filters.map((filter, index) => (
+                <div
+                  key={filter.label}
+                  className="transition-all duration-500 ease-out animate-[filter-fade-in_0.5s_ease-out_forwards]"
+                  style={{
+                    animationDelay: `${100 + index * 100}ms`,
+                    animationKeyframes: filterFadeIn,
+                  }}
+                >
+                  <button className="group flex w-full items-center gap-3 py-2 text-[#2A0A0A]/60 transition-colors hover:text-[#2A0A0A]">
+                    {filter.icon}
+                    <span className="text-sm font-light font-inter">{filter.label}</span>
+                  </button>
+                  {index < filters.length - 1 && <div className="mt-4 h-px w-full bg-[#2A0A0A]/10" />}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <SuggestedPicks wines={wineData} />
+
+            <div className="mt-8 px-8 overflow-auto">
+              {isLoading ? (
+                <div className="text-[#2A0A0A] text-xl font-light font-inter">{loadingPhrase}</div>
+              ) : searchResults.length > 0 ? (
+                <div className="w-full space-y-4">
+                  {searchResults.map((wine) => (
+                    <div key={wine.id} className="bg-white/10 backdrop-blur-md rounded-lg p-4 text-[#2A0A0A]">
+                      <h3 className="font-semibold">{wine.name}</h3>
+                      <p className="text-sm">
+                        {wine.type} | {wine.region}
+                      </p>
+                      <p className="text-sm font-light">${wine.price.toLocaleString()}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                searchQuery && (
+                  <div className="text-[#2A0A0A] text-xl font-light font-inter">
+                    No matches, but there's always more in the cellar!
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function Page() {
+  const [isSearchMode, setIsSearchMode] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [searchResults, setSearchResults] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [loadingPhrase, setLoadingPhrase] = useState("")
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 })
+  const [isNavVisible, setIsNavVisible] = useState(false)
+
+  const zineRef = useRef<HTMLDivElement>(null)
+  const homeRef = useRef<HTMLDivElement>(null)
+
   const handleEscape = useCallback(() => {
     setIsSearchMode(false)
     setSearchQuery("")
@@ -121,7 +227,6 @@ export default function Page() {
   }, [])
 
   const handleSearchClick = () => {
-    setIsAnimating(true)
     setIsSearchMode(true)
   }
 
@@ -157,13 +262,6 @@ export default function Page() {
   }, [searchQuery, debouncedSearch])
 
   useEffect(() => {
-    if (isAnimating) {
-      const timer = setTimeout(() => setIsAnimating(false), 1800)
-      return () => clearTimeout(timer)
-    }
-  }, [isAnimating])
-
-  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         handleEscape()
@@ -194,10 +292,26 @@ export default function Page() {
   const glowX = mousePosition.x * 100 + "%"
   const glowY = mousePosition.y * 100 + "%"
 
-  const zineRef = useRef<HTMLDivElement>(null)
-
   const scrollToZine = () => {
     zineRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (zineRef.current && homeRef.current) {
+        const zineTop = zineRef.current.getBoundingClientRect().top
+        const homeBottom = homeRef.current.getBoundingClientRect().bottom
+        setIsNavVisible(zineTop <= 0 && homeBottom < 0)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const handleHomeClick = () => {
+    homeRef.current?.scrollIntoView({ behavior: "smooth" })
+    setIsNavVisible(false)
   }
 
   return (
@@ -206,6 +320,18 @@ export default function Page() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
+      <MainNav onSearchClick={handleSearchClick} isVisible={isNavVisible} />
+
+      <SearchOverlay
+        isOpen={isSearchMode}
+        onClose={handleEscape}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        searchResults={searchResults}
+        isLoading={isLoading}
+        loadingPhrase={loadingPhrase}
+      />
+
       {/* Fixed Background */}
       <div className="fixed inset-0">
         <Image
@@ -219,98 +345,40 @@ export default function Page() {
 
       {/* Full Screen Glow Effect */}
       <div
-        className={`fixed inset-0 pointer-events-none transition-opacity duration-700 ease-in-out ${
-          isSearchMode ? "opacity-0" : "opacity-100"
-        }`}
+        className="fixed inset-0 pointer-events-none transition-opacity duration-700 ease-in-out opacity-100"
         style={{
           background: `radial-gradient(circle at ${glowX} ${glowY}, rgba(42, 10, 10, 0.05) 0%, transparent 70%)`,
         }}
       />
 
-      {/* Escape Button */}
-      <button
-        onClick={handleEscape}
-        className={`fixed right-8 top-8 z-20 text-[#2A0A0A]/60 transition-all duration-700 ease-out hover:text-[#2A0A0A] font-inter
-          ${isSearchMode ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}
-        `}
-      >
-        <span className="mr-2 text-sm font-light tracking-wider font-inter">CLOSE</span>
-        <X className="inline-block h-4 w-4" />
-        <span className="sr-only">Exit search</span>
-      </button>
-
       {/* Hero Section */}
-      <section id="home" className="relative z-10 min-h-screen snap-start">
-        <div className="relative min-h-screen md:grid md:grid-cols-[35%_65%]">
-          {/* Left Column - Home Image / Suggested Picks / Search Results */}
-          <div className="hidden md:flex flex-col items-center justify-center relative overflow-hidden md:pl-[15%]">
+      <section ref={homeRef} id="home" className="relative z-10 min-h-screen snap-start">
+        <div className="relative min-h-screen md:grid md:grid-cols-2">
+          {/* Left Column - Home Image */}
+          <div className="hidden md:block relative overflow-hidden">
             {/* Home Image */}
-            <div
-              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ease-in-out 
-                ${isSearchMode ? "opacity-0 pointer-events-none" : "opacity-100"}
-              `}
-            >
+            <div className="absolute inset-0">
               <div
-                className="relative w-[300px] h-[600px] transition-transform duration-300 ease-out mx-auto"
+                className="relative w-full h-full transition-transform duration-300 ease-out"
                 style={{
                   transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
                 }}
               >
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mock-bottle-001-S5pop8LiRvhN88QAqwZH1tOKrtB8p4.png"
-                  alt="Wine bottle"
+                  src="https://cdn.midjourney.com/97c96361-e426-4657-9a07-f0a6515878df/0_1.png"
+                  alt="Wine bottles"
                   fill
-                  className="object-contain transition-transform duration-300 hover:scale-105"
+                  className="object-cover transition-transform duration-300 hover:scale-105"
                   priority
                 />
-              </div>
-            </div>
-
-            {/* Suggested Picks and Search Results */}
-            <div
-              className={`w-full h-full flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out ${
-                isSearchMode ? "opacity-100" : "opacity-0 pointer-events-none"
-              }`}
-            >
-              <div className="w-full max-w-md">
-                <SuggestedPicks wines={wineData} />
-              </div>
-
-              {/* Search Results */}
-              <div className="w-full max-w-md mt-8 px-8 overflow-auto">
-                {isLoading ? (
-                  <div className="text-[#2A0A0A] text-xl font-light font-inter">{loadingPhrase}</div>
-                ) : searchResults.length > 0 ? (
-                  <div className="w-full space-y-4">
-                    {searchResults.map((wine) => (
-                      <div key={wine.id} className="bg-white/10 backdrop-blur-md rounded-lg p-4 text-[#2A0A0A]">
-                        <h3 className="font-semibold">{wine.name}</h3>
-                        <p className="text-sm">
-                          {wine.type} | {wine.region}
-                        </p>
-                        <p className="text-sm font-light">${wine.price.toLocaleString()}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  searchQuery && (
-                    <div className="text-[#2A0A0A] text-xl font-light font-inter">
-                      No matches, but there's always more in the cellar!
-                    </div>
-                  )
-                )}
               </div>
             </div>
           </div>
 
           {/* Right Column - Content */}
-          <div className="relative flex min-h-screen items-center justify-center px-8 md:pl-12 md:pr-[11.375%] lg:pl-16">
+          <div className="relative flex min-h-screen items-end justify-center px-16">
             {/* Logo and Content */}
-            <div
-              className={`w-full max-w-2xl transition-all duration-700 ease-out
-                ${isSearchMode ? "opacity-0 invisible absolute" : "opacity-100 visible"}
-              `}
-            >
+            <div className="w-full max-w-2xl transition-all duration-700 ease-out pb-16 opacity-100 visible">
               {/* Header */}
               <div className="mb-12">
                 <h1 className="text-heading-lg font-sans text-[#2A0A0A] leading-none">Monument</h1>
@@ -362,60 +430,6 @@ export default function Page() {
                     <span>Scroll on down</span>
                   </button>
                 </div>
-              </div>
-            </div>
-
-            {/* Search Bar and Filters Container */}
-            <div
-              className={`max-w-md transition-all duration-700 ease-out
-                ${isSearchMode ? "opacity-100 visible" : "opacity-0 invisible absolute"}
-              `}
-            >
-              {/* Search Header */}
-              <h1
-                className={`text-heading font-sans text-[#2A0A0A] leading-none mb-8 transition-all duration-700 ease-out
-                  ${isSearchMode ? "opacity-100 visible font-inter" : "opacity-0 invisible h-0 mb-0"}
-                `}
-              >
-                Search
-              </h1>
-
-              {/* Search Input (visible only in search mode) */}
-              {isSearchMode && (
-                <div className="relative mb-8">
-                  <Search className="absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 transform text-[#2A0A0A]/60" />
-                  <Input
-                    type="search"
-                    placeholder="Search our collection..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="rounded-none border-t-0 border-x-0 border-b border-[#2A0A0A]/20 bg-transparent pl-8 pr-2 text-[#2A0A0A] outline-none 
-                      placeholder:text-[#2A0A0A]/60 hover:border-[#2A0A0A]/40 focus:border-[#2A0A0A] focus:ring-0 focus-visible:ring-0 
-                      focus-visible:ring-offset-0 text-lg font-inter"
-                  />
-                </div>
-              )}
-
-              {/* Filters */}
-              <div className={`space-y-4 ${isSearchMode ? "mt-8" : "mt-0"} transition-all duration-700 font-inter`}>
-                {filters.map((filter, index) => (
-                  <div
-                    key={filter.label}
-                    className={`transition-all duration-500 ease-out ${
-                      isSearchMode ? "animate-[filter-fade-in_0.5s_ease-out_forwards]" : "opacity-0 translate-y-4"
-                    }`}
-                    style={{
-                      animationDelay: `${700 + index * 100}ms`,
-                      animationKeyframes: filterFadeIn,
-                    }}
-                  >
-                    <button className="group flex w-full items-center gap-3 py-2 text-[#2A0A0A]/60 transition-colors hover:text-[#2A0A0A]">
-                      {filter.icon}
-                      <span className="text-sm font-light font-inter">{filter.label}</span>
-                    </button>
-                    {index < filters.length - 1 && <div className="mt-4 h-px w-full bg-[#2A0A0A]/10" />}
-                  </div>
-                ))}
               </div>
             </div>
           </div>
