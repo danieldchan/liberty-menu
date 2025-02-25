@@ -54,7 +54,7 @@ export default function ProductPage() {
             {/* Left Column - Product Image */}
             <div className="relative flex items-center justify-center p-8 md:p-16">
               <div
-                className={`relative w-full max-w-[300px] aspect-[3/4] mx-auto transition-opacity duration-1000 ease-in-out ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                className={`relative w-full max-w-[400px] aspect-[2/3] mx-auto transition-opacity duration-1000 ease-in-out ${isLoaded ? "opacity-100" : "opacity-0"}`}
               >
                 <Image
                   src="/mock-bottles/mock-bottle-001.png"

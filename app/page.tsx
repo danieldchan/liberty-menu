@@ -6,14 +6,14 @@ import {
   Search,
   X,
   Wine,
+  ScrollText,
+  MoveDown,
   Calendar,
   Building2,
   Globe2,
   MapPin,
   Grape,
   DollarSign,
-  ScrollText,
-  MoveDown,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -35,6 +35,7 @@ const wineData = [
     name: "Château Margaux 2015",
     type: "Red",
     region: "Bordeaux",
+    country: "France",
     price: 1200,
     grapeVariety: "Cabernet Sauvignon",
     image: "/mock-bottles/mock-bottle-001.png",
@@ -44,6 +45,7 @@ const wineData = [
     name: "Domaine de la Romanée-Conti 2018",
     type: "Red",
     region: "Burgundy",
+    country: "France",
     price: 20000,
     grapeVariety: "Pinot Noir",
     image: "/mock-bottles/mock-bottle-002.png",
@@ -53,6 +55,7 @@ const wineData = [
     name: "Screaming Eagle Cabernet Sauvignon 2019",
     type: "Red",
     region: "Napa Valley",
+    country: "United States",
     price: 3500,
     grapeVariety: "Cabernet Sauvignon",
     image: "/mock-bottles/mock-bottle-003.png",
@@ -62,6 +65,7 @@ const wineData = [
     name: "Krug Clos d'Ambonnay 2002",
     type: "Champagne",
     region: "Champagne",
+    country: "France",
     price: 2500,
     grapeVariety: "Chardonnay",
     image: "/mock-bottles/mock-bottle-004.png",
@@ -71,6 +75,7 @@ const wineData = [
     name: "Penfolds Grange 2016",
     type: "Red",
     region: "South Australia",
+    country: "Australia",
     price: 800,
     grapeVariety: "Shiraz",
     image: "/mock-bottles/mock-bottle-005.png",
@@ -108,7 +113,7 @@ const SearchOverlay: React.FC<{
   const filters = [
     { icon: <Wine className="h-4 w-4" />, label: "Wine Type" },
     { icon: <Calendar className="h-4 w-4" />, label: "Vintage" },
-    { icon: <Building2 className="h-4 w-4" />, label: "Winery" },
+    { icon: <Building2 className="h-4 w-4" />, label: "Producer" },
     { icon: <Globe2 className="h-4 w-4" />, label: "Country" },
     { icon: <MapPin className="h-4 w-4" />, label: "Region" },
     { icon: <Grape className="h-4 w-4" />, label: "Grape Variety" },
@@ -128,19 +133,18 @@ const SearchOverlay: React.FC<{
     >
       <div className="absolute inset-0 bg-white/80 backdrop-blur-md" />
       <div className="relative z-10 container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-heading font-sans text-[#2A0A0A] leading-none font-inter">Search</h1>
+        <div className="flex justify-end mb-8">
           <button
             onClick={onClose}
             className="text-[#2A0A0A]/60 transition-all duration-300 hover:text-[#2A0A0A] font-inter"
           >
-            <span className="mr-2 text-sm font-light tracking-wider font-inter">CLOSE</span>
+            <span className="mr-2 text-sm font-light tracking-wider font-inter">Close</span>
             <X className="inline-block h-4 w-4" />
             <span className="sr-only">Exit search</span>
           </button>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-16">
           <div>
             <div className="relative mb-8">
               <Search className="absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 transform text-[#2A0A0A]/60" />
@@ -149,58 +153,55 @@ const SearchOverlay: React.FC<{
                 placeholder="Search our collection..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="rounded-none border-t-0 border-x-0 border-b border-[#2A0A0A]/20 bg-transparent pl-8 pr-2 text-[#2A0A0A] outline-none 
+                className="rounded-none border border-[#2A0A0A]/20 bg-transparent pl-8 pr-2 text-[#2A0A0A] outline-none 
                   placeholder:text-[#2A0A0A]/60 hover:border-[#2A0A0A]/40 focus:border-[#2A0A0A] focus:ring-0 focus-visible:ring-0 
-                  focus-visible:ring-offset-0 text-lg font-inter"
+                  focus-visible:ring-offset-0 text-lg"
               />
             </div>
 
-            <div className="space-y-4 transition-all duration-700 font-inter">
+            <div className="space-y-px">
               {filters.map((filter, index) => (
-                <div
+                <button
                   key={filter.label}
-                  className="transition-all duration-500 ease-out animate-[filter-fade-in_0.5s_ease-out_forwards]"
-                  style={{
-                    animationDelay: `${100 + index * 100}ms`,
-                    animationKeyframes: filterFadeIn,
-                  }}
+                  className="w-full flex items-center justify-between p-4 border border-[#2A0A0A]/20 text-[#2A0A0A]/60 
+                    hover:text-[#2A0A0A] transition-colors group"
                 >
-                  <button className="group flex w-full items-center gap-3 py-2 text-[#2A0A0A]/60 transition-colors hover:text-[#2A0A0A]">
+                  <div className="flex items-center gap-3">
                     {filter.icon}
-                    <span className="text-sm font-light font-inter">{filter.label}</span>
-                  </button>
-                  {index < filters.length - 1 && <div className="mt-4 h-px w-full bg-[#2A0A0A]/10" />}
-                </div>
+                    <span className="font-serif italic">{filter.label}</span>
+                  </div>
+                  <span className="text-lg group-hover:rotate-45 transition-transform duration-200">+</span>
+                </button>
               ))}
             </div>
+
+            {searchResults.length > 0 && (
+              <div className="mt-8 space-y-4">
+                {searchResults.map((wine) => (
+                  <div key={wine.id} className="border border-[#2A0A0A]/20 p-4">
+                    <h3 className="font-semibold">{wine.name}</h3>
+                    <p className="text-sm text-[#2A0A0A]/70">
+                      {wine.type} | {wine.region}
+                    </p>
+                    <p className="text-sm font-light">${wine.price.toLocaleString()}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {isLoading && (
+              <div className="mt-8 text-[#2A0A0A] text-xl font-light font-serif italic">{loadingPhrase}</div>
+            )}
+
+            {searchQuery && !isLoading && searchResults.length === 0 && (
+              <div className="mt-8 text-[#2A0A0A] text-xl font-light font-serif italic">
+                No matches, but there's always more in the cellar!
+              </div>
+            )}
           </div>
 
           <div>
             <SuggestedPicks wines={wineData} />
-
-            <div className="mt-8 px-8 overflow-auto">
-              {isLoading ? (
-                <div className="text-[#2A0A0A] text-xl font-light font-inter">{loadingPhrase}</div>
-              ) : searchResults.length > 0 ? (
-                <div className="w-full space-y-4">
-                  {searchResults.map((wine) => (
-                    <div key={wine.id} className="bg-white/10 backdrop-blur-md rounded-lg p-4 text-[#2A0A0A]">
-                      <h3 className="font-semibold">{wine.name}</h3>
-                      <p className="text-sm">
-                        {wine.type} | {wine.region}
-                      </p>
-                      <p className="text-sm font-light">${wine.price.toLocaleString()}</p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                searchQuery && (
-                  <div className="text-[#2A0A0A] text-xl font-light font-inter">
-                    No matches, but there's always more in the cellar!
-                  </div>
-                )
-              )}
-            </div>
           </div>
         </div>
       </div>

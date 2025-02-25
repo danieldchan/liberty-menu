@@ -4,7 +4,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { ChevronUp, ChevronDown } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface Wine {
@@ -12,6 +12,7 @@ interface Wine {
   name: string
   type: string
   region: string
+  country: string
   price: number
   grapeVariety: string
   image: string
@@ -55,91 +56,87 @@ const SuggestedPicks: React.FC<SuggestedPicksProps> = ({ wines }) => {
   }, [isAnimating])
 
   return (
-    <div className="relative h-full w-full flex flex-col justify-between py-8 px-8">
-      <button
-        onClick={handlePrev}
-        className="absolute top-8 left-1/2 transform -translate-x-1/2 text-[#2A0A0A]/60 hover:text-[#2A0A0A] transition-colors z-10"
-        aria-label="Previous wine"
-      >
-        <ChevronUp className="h-8 w-8" />
-      </button>
+    <div className="relative h-full w-full flex flex-col justify-between">
+      <h2 className="font-serif italic text-2xl text-[#2A0A0A] mb-8">Suggested wines</h2>
 
-      <div className="flex flex-col items-center justify-center flex-grow py-12">
-        <div
-          className={`relative w-[220px] h-[350px] mb-6 transition-all duration-800 ease-in-out 
-          ${isAnimating ? (isEntering ? "opacity-0 scale-110" : "opacity-0 scale-90") : "opacity-100 scale-100"}`}
+      <div className="flex items-center">
+        <button
+          onClick={handlePrev}
+          className="absolute left-0 text-[#2A0A0A]/60 hover:text-[#2A0A0A] transition-colors z-10"
+          aria-label="Previous wine"
         >
-          <Image src={currentWine.image || "/placeholder.svg"} alt={currentWine.name} fill className="object-contain" />
-        </div>
+          <ChevronLeft className="h-8 w-8" />
+        </button>
 
-        <div className="text-center space-y-2 mb-6 w-full">
-          {["name", "details", "price", "buttons"].map((item, index) => {
-            const delay = 100 + index * 100
-            const content = (() => {
-              switch (item) {
-                case "name":
-                  return <h3 className="text-xl font-semibold text-[#2A0A0A]">{currentWine.name}</h3>
-                case "details":
-                  return (
-                    <p className="text-sm text-[#2A0A0A]/80">
-                      {currentWine.grapeVariety} | {currentWine.region}
-                    </p>
-                  )
-                case "price":
-                  return <p className="text-lg font-light text-[#2A0A0A]">${currentWine.price.toLocaleString()}</p>
-                case "buttons":
-                  return (
-                    <div className="grid grid-cols-2 mt-4 border border-[#2A0A0A]/20">
-                      <Button
-                        onClick={() => router.push(`/products/${currentWine.id}`)}
-                        className="p-4 rounded-none bg-transparent text-[#2A0A0A] hover:bg-[#2A0A0A]/5 transition-colors font-sans font-medium border-r border-[#2A0A0A]/20"
-                      >
-                        View Details
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          // Implement "See Similar" functionality
-                          console.log("See similar wines to:", currentWine.name)
-                        }}
-                        className="p-4 rounded-none bg-transparent text-[#2A0A0A] hover:bg-[#2A0A0A]/5 transition-colors font-sans font-medium"
-                      >
-                        See Similar
-                      </Button>
-                    </div>
-                  )
-              }
-            })()
+        <div className="flex-1 flex flex-col items-center">
+          <div
+            className={`relative w-[220px] h-[350px] mb-8 transition-all duration-800 ease-in-out 
+            ${isAnimating ? (isEntering ? "opacity-0 translate-x-8" : "opacity-0 -translate-x-8") : "opacity-100 translate-x-0"}`}
+          >
+            <Image
+              src={currentWine.image || "/placeholder.svg"}
+              alt={currentWine.name}
+              fill
+              className="object-contain"
+            />
+          </div>
 
-            return (
-              <div
-                key={item}
-                className={`transition-all duration-500 ease-in-out
-                  ${
-                    isAnimating
-                      ? isEntering
-                        ? "opacity-0 translate-y-2"
-                        : "opacity-0 scale-98"
-                      : "opacity-100 translate-y-0 scale-100"
-                  }`}
-                style={{
-                  transitionDelay: `${isEntering ? delay : 400 - delay}ms`,
-                  transform: isAnimating && !isEntering ? `scale(${0.98 + index * 0.005})` : "scale(1)",
-                }}
-              >
-                {content}
+          <div className="w-full space-y-6">
+            <div
+              className={`transition-all duration-500 ease-in-out
+                ${isAnimating ? (isEntering ? "opacity-0 translate-x-4" : "opacity-0 -translate-x-4") : "opacity-100 translate-x-0"}`}
+              style={{ transitionDelay: "100ms" }}
+            >
+              <h3 className="text-xl font-semibold text-[#2A0A0A] mb-4">{currentWine.name}</h3>
+
+              <div className="grid grid-cols-3 border border-[#2A0A0A]/20">
+                <div className="p-4 border-r border-[#2A0A0A]/20">
+                  <div className="font-serif italic text-sm text-[#2A0A0A]/60 mb-1">Country</div>
+                  <div className="font-sans text-[#2A0A0A]">{currentWine.country}</div>
+                </div>
+                <div className="p-4 border-r border-[#2A0A0A]/20">
+                  <div className="font-serif italic text-sm text-[#2A0A0A]/60 mb-1">Region</div>
+                  <div className="font-sans text-[#2A0A0A]">{currentWine.region}</div>
+                </div>
+                <div className="p-4">
+                  <div className="font-serif italic text-sm text-[#2A0A0A]/60 mb-1">Price</div>
+                  <div className="font-sans text-[#2A0A0A]">${currentWine.price.toLocaleString()}</div>
+                </div>
               </div>
-            )
-          })}
-        </div>
-      </div>
+            </div>
 
-      <button
-        onClick={handleNext}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-[#2A0A0A]/60 hover:text-[#2A0A0A] transition-colors z-10"
-        aria-label="Next wine"
-      >
-        <ChevronDown className="h-8 w-8" />
-      </button>
+            <div
+              className={`grid grid-cols-2 border border-[#2A0A0A]/20 transition-all duration-500 ease-in-out
+                ${isAnimating ? (isEntering ? "opacity-0 translate-y-2" : "opacity-0 -translate-y-2") : "opacity-100 translate-y-0"}`}
+              style={{ transitionDelay: "200ms" }}
+            >
+              <Button
+                onClick={() => router.push(`/products/${currentWine.id}`)}
+                className="p-4 rounded-none bg-transparent text-[#2A0A0A] hover:bg-[#2A0A0A]/5 transition-colors font-sans font-medium border-r border-[#2A0A0A]/20"
+              >
+                View Details
+              </Button>
+              <Button
+                onClick={() => {
+                  // Implement "See Similar" functionality
+                  console.log("See similar wines to:", currentWine.name)
+                }}
+                className="p-4 rounded-none bg-transparent text-[#2A0A0A] hover:bg-[#2A0A0A]/5 transition-colors font-sans font-medium"
+              >
+                See Similar
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <button
+          onClick={handleNext}
+          className="absolute right-0 text-[#2A0A0A]/60 hover:text-[#2A0A0A] transition-colors z-10"
+          aria-label="Next wine"
+        >
+          <ChevronRight className="h-8 w-8" />
+        </button>
+      </div>
     </div>
   )
 }
