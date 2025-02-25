@@ -236,23 +236,16 @@ export default function Page() {
 
           {/* Suggested Picks and Search Results */}
           <div
-            className={`w-full h-full flex flex-col transition-opacity duration-700 ease-in-out ${
+            className={`w-full h-full flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out ${
               isSearchMode ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}
           >
-            <div className="flex-grow">
-              <SuggestedPicks
-                wines={wineData}
-                onSeeMoreLikeThis={(wine) => {
-                  // Implement filter application based on wine characteristics
-                  console.log("See more like:", wine)
-                  // You would typically update the search query or apply filters here
-                }}
-              />
+            <div className="w-full max-w-md">
+              <SuggestedPicks wines={wineData} />
             </div>
 
             {/* Search Results */}
-            <div className="h-1/3 px-8 overflow-auto">
+            <div className="w-full max-w-md mt-8 px-8 overflow-auto">
               {isLoading ? (
                 <div className="text-[#2A0A0A] text-xl font-light font-inter">{loadingPhrase}</div>
               ) : searchResults.length > 0 ? (

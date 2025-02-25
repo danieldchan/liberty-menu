@@ -3,6 +3,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { ChevronUp, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -18,13 +19,13 @@ interface Wine {
 
 interface SuggestedPicksProps {
   wines: Wine[]
-  onSeeMoreLikeThis: (wine: Wine) => void
 }
 
-const SuggestedPicks: React.FC<SuggestedPicksProps> = ({ wines, onSeeMoreLikeThis }) => {
+const SuggestedPicks: React.FC<SuggestedPicksProps> = ({ wines }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   const [isEntering, setIsEntering] = useState(true)
+  const router = useRouter()
 
   const currentWine = wines[currentIndex]
 
@@ -34,7 +35,7 @@ const SuggestedPicks: React.FC<SuggestedPicksProps> = ({ wines, onSeeMoreLikeThi
     setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : wines.length - 1))
       setIsEntering(true)
-    }, 400) // Increased delay for smoother transition
+    }, 400)
   }
 
   const handleNext = () => {
@@ -43,12 +44,12 @@ const SuggestedPicks: React.FC<SuggestedPicksProps> = ({ wines, onSeeMoreLikeThi
     setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex < wines.length - 1 ? prevIndex + 1 : 0))
       setIsEntering(true)
-    }, 400) // Increased delay for smoother transition
+    }, 400)
   }
 
   useEffect(() => {
     if (isAnimating) {
-      const timer = setTimeout(() => setIsAnimating(false), 800) // Increased duration for smoother animation
+      const timer = setTimeout(() => setIsAnimating(false), 800)
       return () => clearTimeout(timer)
     }
   }, [isAnimating])
@@ -71,8 +72,8 @@ const SuggestedPicks: React.FC<SuggestedPicksProps> = ({ wines, onSeeMoreLikeThi
           <Image src={currentWine.image || "/placeholder.svg"} alt={currentWine.name} fill className="object-contain" />
         </div>
 
-        <div className="text-center space-y-2 mb-6">
-          {["name", "details", "price", "button"].map((item, index) => {
+        <div className="text-center space-y-2 mb-6 w-full">
+          {["name", "details", "price", "buttons"].map((item, index) => {
             const delay = 100 + index * 100
             const content = (() => {
               switch (item) {
@@ -86,14 +87,25 @@ const SuggestedPicks: React.FC<SuggestedPicksProps> = ({ wines, onSeeMoreLikeThi
                   )
                 case "price":
                   return <p className="text-lg font-light text-[#2A0A0A]">${currentWine.price.toLocaleString()}</p>
-                case "button":
+                case "buttons":
                   return (
-                    <Button
-                      onClick={() => onSeeMoreLikeThis(currentWine)}
-                      className="bg-[#2A0A0A]/10 text-[#2A0A0A] hover:bg-[#2A0A0A]/20 mt-4"
-                    >
-                      See More Like This
-                    </Button>
+                    <div className="grid grid-cols-2 mt-4 border border-[#2A0A0A]/20">
+                      <Button
+                        onClick={() => router.push(`/products/${currentWine.id}`)}
+                        className="p-4 rounded-none bg-transparent text-[#2A0A0A] hover:bg-[#2A0A0A]/5 transition-colors font-sans font-medium border-r border-[#2A0A0A]/20"
+                      >
+                        View Details
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          // Implement "See Similar" functionality
+                          console.log("See similar wines to:", currentWine.name)
+                        }}
+                        className="p-4 rounded-none bg-transparent text-[#2A0A0A] hover:bg-[#2A0A0A]/5 transition-colors font-sans font-medium"
+                      >
+                        See Similar
+                      </Button>
+                    </div>
                   )
               }
             })()
