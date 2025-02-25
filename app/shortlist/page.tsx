@@ -135,18 +135,19 @@ export default function ShortlistPage() {
   }, [visibleItems, shortlist.length])
 
   return (
-    <main className="relative min-h-screen w-full">
-      {/* Background Image */}
-      <Image
-        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-84jd3ucYE1UpR9L7sGyNmNrvtZgthU.png"
-        alt="Background gradient"
-        fill
-        className="object-cover"
-        priority
-      />
+    <main className="min-h-screen w-full">
+      <div className="fixed inset-0">
+        <Image
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-84jd3ucYE1UpR9L7sGyNmNrvtZgthU.png"
+          alt="Background gradient"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
 
       {/* Content */}
-      <div className="relative z-10">
+      <div className="relative min-h-screen">
         <MainNav onSearchClick={() => setIsSearchOpen(true)} isVisible={true} />
 
         <motion.div
