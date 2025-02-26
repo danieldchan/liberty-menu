@@ -10,28 +10,28 @@ const articles = [
     title: "The Heart of Burgundy: A Chat with Lucie Martin",
     description:
       "Go behind the scenes with renowned winemaker Lucie Martin as she shares insights on crafting Burgundy's finest Pinot Noir.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://cdn.midjourney.com/6c4da926-8774-4949-b660-956c2398b0b9/0_0.png",
   },
   {
     category: "Wine of the Month",
     title: "Tenuta San Guido Sassicaia 2020",
     description:
       "A refined Super Tuscan blending Cabernet Sauvignon and Cabernet Franc. Elegant notes of blackcurrant, herbs, and subtle oak.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://cdn.midjourney.com/86932551-ace4-4cae-9ce3-734175f5af8b/0_2.png",
   },
   {
     category: "Wine is Life",
     title: "Personality Quiz: What's Your Perfect Pour?",
     description:
       "Ever wondered which wine matches your vibe? Take our light-hearted quiz to discover if you're a bold Cabernet, a bubbly Prosecco, or a smooth Pinot Noir. Perfect for your next pour—or just a bit of fun with friends.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://cdn.midjourney.com/a54bd6a2-fbbf-4fa9-9d1b-e2d9dfb90f6d/0_1.png",
   },
   {
     category: "Sommelier Suggestions",
     title: "Pairing Sparkling Wines Beyond Appetizers",
     description:
       "Explore how Champagne and other sparkling wines can elevate your entire meal, from starters to dessert.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://cdn.midjourney.com/13e3d241-eb7f-4779-9995-bf4b9e21581f/0_0.png",
   },
 ]
 

@@ -9,19 +9,19 @@ const articles = [
     title: "Understanding Appellations",
     description:
       'Ever wonder what "Bordeaux AOC" or "Chianti DOCG" means on a wine label? Appellations are more than just geography — they\'re a mark of origin, quality standards, and traditional winemaking methods.',
-    image: "/placeholder.svg?height=300&width=400",
+    image: "https://cdn.midjourney.com/de7db9e6-6473-4d89-95de-3e89a2ac3f25/0_2.png",
   },
   {
     title: "How to Read a Wine Label",
     description:
       "Vintage, varietal, producer — decoding a wine label can feel like cracking a secret code. This guide breaks down what each element means so you can shop with confidence.",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "https://cdn.midjourney.com/98bf0a84-b52c-48f1-ae28-c4bbc8fc5763/0_0.png",
   },
   {
     title: "Tasting Notes Decoded",
     description:
       "Hints of blackberry with earthy undertones\" — what does that even mean? We'll help you understand common tasting terms and how to use them to better appreciate your wine.",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "https://cdn.midjourney.com/f43ecea3-bfc0-4826-aa5a-ecd7dbb74051/0_0.png",
   },
 ]
 

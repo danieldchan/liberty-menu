@@ -25,14 +25,14 @@ export default function PourAndPlay() {
             title: "Pop It Like a Pro: Mastering the Art of Champagne Opening",
             description:
               "Sabering or a classic pop? Learn the safest (and most stylish) ways to open a bottle of bubbly and impress at your next celebration.",
-            image: "/placeholder.svg?height=600&width=800",
+            image: "https://cdn.midjourney.com/f0f4c54a-d8a4-45b4-91d6-a633a6ae8dc6/0_1.png",
             type: "How-To Guide",
           },
           {
             title: "A Walk Through Tuscany: Virtual Vineyard Tour",
             description:
               "Wander through the rolling hills of Tuscany from the comfort of your screen. Experience the harvest, meet the winemakers, and explore the cellars where magic happens.",
-            image: "/placeholder.svg?height=600&width=800",
+            image: "https://cdn.midjourney.com/be9410ea-5a9e-4e5c-8b42-fe5d085fd9ee/0_0.png",
             type: "Virtual Experience",
           },
         ].map((video) => (

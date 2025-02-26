@@ -10,7 +10,7 @@ const events = [
     title: "Sunset Sessions with DJ Maverick",
     date: "Friday, April 26, 2025",
     time: "7:00 PM - Midnight",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://cdn.midjourney.com/ae8e1070-cce6-4d08-a812-ba3aa8897ecd/0_1.png",
     colSpan: "col-span-1",
   },
   {
@@ -18,7 +18,7 @@ const events = [
     title: "Decoding Natural Wines: From Vineyard to Glass",
     date: "April 24, 2025",
     time: "6:00 PM - 8:30 PM",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://cdn.midjourney.com/edeec1e2-ab31-4f00-9800-944e483e0f1f/0_0.png",
     colSpan: "col-span-1",
   },
   {
@@ -26,15 +26,15 @@ const events = [
     title: "An Evening of Bordeaux Classics",
     date: "Thursday, March 28, 2025",
     time: "7:00 PM - 9:30 PM",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "https://cdn.midjourney.com/a6011235-7074-4f8b-b5fb-a0f7dbe5a82b/0_2.png",
     colSpan: "col-span-1",
   },
   {
     category: "Masterclass",
-    title: "The Art of Blind Tasting: Level Up Your Palate",
+    title: "Paint & Pour: Wine Meets Art",
     date: "Saturday, April 6, 2025",
     time: "6:30 PM - 10:00 PM",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "https://cdn.midjourney.com/25cc80eb-76f2-4d07-bbbb-91133566ae07/0_3.png",
     colSpan: "col-span-1",
   },
   {
@@ -42,7 +42,7 @@ const events = [
     title: "A 5-Course Tasting with Loire Valley Wines",
     date: "Friday, April 19, 2025",
     time: "7:00 PM - 9:00 PM",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "https://cdn.midjourney.com/c3a8afc2-69a8-45ae-af52-e12f9801e1bd/0_2.png",
     colSpan: "col-span-1",
   },
 ]

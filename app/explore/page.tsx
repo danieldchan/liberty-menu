@@ -91,7 +91,7 @@ export default function ExplorePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-px border border-[#2A0A0A]/20"
+            className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-px gap-y-10 border border-[#2A0A0A]/20"
           >
             <AnimatePresence>
               {mockCollection.slice(0, visibleItems).map((item, index) => (
@@ -109,15 +109,19 @@ export default function ExplorePage() {
                   </div>
 
                   {/* Product Name */}
-                  <h3 className="px-4 pt-4 pb-3 font-sans font-medium text-base text-[#2A0A0A] border-b border-[#2A0A0A]/20 line-clamp-2">
+                  <h3 className="px-4 pt-4 pb-3 font-sans font-bold text-base text-[#2A0A0A] border-b border-[#2A0A0A]/20 line-clamp-2 h-[4.5rem]">
                     {item.name}
                   </h3>
 
                   {/* Details */}
-                  <div className="grid grid-cols-3 px-4 py-3 border-b border-[#2A0A0A]/20 text-sm">
-                    <div className="font-sans text-[#2A0A0A] border-r border-[#2A0A0A]/20 pr-2">{item.country}</div>
-                    <div className="font-sans text-[#2A0A0A] border-r border-[#2A0A0A]/20 px-2">{item.region}</div>
-                    <div className="font-sans text-[#2A0A0A] text-right pl-2">${item.price.toFixed(2)}</div>
+                  <div className="grid grid-cols-3 px-4 py-3 border-b border-[#2A0A0A]/20 text-xs h-[3rem]">
+                    <div className="font-sans text-[#2A0A0A] border-r border-[#2A0A0A]/20 pr-2 flex items-center">
+                      {item.country}
+                    </div>
+                    <div className="font-sans text-[#2A0A0A] border-r border-[#2A0A0A]/20 px-2 flex items-center">
+                      {item.region}
+                    </div>
+                    <div className="font-sans text-[#2A0A0A] pl-2 flex items-center">${item.price.toFixed(2)}</div>
                   </div>
 
                   {/* Actions */}
