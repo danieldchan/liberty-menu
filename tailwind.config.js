@@ -18,8 +18,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)"],
-        serif: ["var(--font-playfair)"],
+        sans: ["neue-haas-grotesk-display", "sans-serif"],
+        serif: ["ivypresto-headline", "serif"],
+        body: ["neue-haas-grotesk-text", "sans-serif"],
       },
       fontSize: {
         "heading-lg": ["3.5rem", { lineHeight: "1.1", fontWeight: "700" }],
@@ -82,6 +83,11 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      fontWeight: {
+        normal: 400,
+        medium: 500,
+        bold: 700,
       },
     },
   },

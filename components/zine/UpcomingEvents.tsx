@@ -59,7 +59,7 @@ export default function UpcomingEvents() {
       <div className="p-8 backdrop-blur-sm border border-[#2A0A0A]/20">
         <div className="flex items-center gap-2 text-[#2A0A0A]/80">
           <Calendar className="h-5 w-5" />
-          <span className="font-serif italic">Upcoming Events</span>
+          <span className="font-serif font-normal italic">Upcoming Events</span>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-px">
@@ -81,13 +81,13 @@ export default function UpcomingEvents() {
               />
             </div>
             <div className="p-8 space-y-4">
-              <div className="font-serif italic text-sm text-[#2A0A0A]/80">{event.category}</div>
+              <div className="font-serif font-normal italic text-sm text-[#2A0A0A]/80">{event.category}</div>
               <h3 className="text-xl font-sans font-bold text-[#2A0A0A] group-hover:text-[#2A0A0A]/60 transition-colors">
                 {event.title}
               </h3>
               <div className="space-y-1">
                 <p className="text-sm font-sans font-medium text-[#2A0A0A]">{event.date}</p>
-                <p className="text-sm font-sans text-[#2A0A0A]/70">{event.time}</p>
+                <p className="text-sm font-sans font-medium text-[#2A0A0A]/70">{event.time}</p>
               </div>
             </div>
           </motion.div>
@@ -112,13 +112,13 @@ export default function UpcomingEvents() {
               />
             </div>
             <div className="p-8 space-y-4">
-              <div className="font-serif italic text-sm text-[#2A0A0A]/80">{event.category}</div>
+              <div className="font-serif font-normal italic text-sm text-[#2A0A0A]/80">{event.category}</div>
               <h3 className="text-xl font-sans font-bold text-[#2A0A0A] group-hover:text-[#2A0A0A]/60 transition-colors">
                 {event.title}
               </h3>
               <div className="space-y-1">
                 <p className="text-sm font-sans font-medium text-[#2A0A0A]">{event.date}</p>
-                <p className="text-sm font-sans text-[#2A0A0A]/70">{event.time}</p>
+                <p className="text-sm font-sans font-medium text-[#2A0A0A]/70">{event.time}</p>
               </div>
             </div>
           </motion.div>

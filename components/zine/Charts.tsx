@@ -50,7 +50,7 @@ export default function Charts() {
       <div className="p-8 space-y-4">
         <div className="flex items-center gap-2 text-[#2A0A0A]/80">
           <Trophy className="h-5 w-5" />
-          <span className="font-serif italic">Charts</span>
+          <span className="font-serif font-normal italic">Charts</span>
         </div>
         <h2 className="text-5xl font-sans font-bold text-[#2A0A0A] leading-[1.1]">
           Monument's
@@ -58,7 +58,7 @@ export default function Charts() {
           Favourite Reds
         </h2>
         <button className="group flex items-center gap-2 text-[#2A0A0A]/60 hover:text-[#2A0A0A] transition-colors">
-          <span className="font-serif italic">See the full list</span>
+          <span className="font-serif font-normal italic">See the full list</span>
           <span className="transition-transform group-hover:translate-x-1">→</span>
         </button>
       </div>
@@ -79,7 +79,7 @@ export default function Charts() {
               <div className="font-sans font-medium text-[#2A0A0A] group-hover:text-[#2A0A0A]/60 transition-colors">
                 {wine.name}
               </div>
-              <div className="font-serif italic text-sm text-[#2A0A0A]/60">{wine.region}</div>
+              <div className="font-serif font-normal italic text-sm text-[#2A0A0A]/60">{wine.region}</div>
             </div>
           </Link>
         ))}

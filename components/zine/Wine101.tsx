@@ -37,7 +37,7 @@ export default function Wine101() {
       <div className="p-8 backdrop-blur-sm border border-[#2A0A0A]/20">
         <div className="flex items-center gap-2 text-[#2A0A0A]/80">
           <Lightbulb className="h-5 w-5" />
-          <span className="font-serif italic">Wine 101</span>
+          <span className="font-serif font-normal italic">Wine 101</span>
         </div>
       </div>
       <div className="grid grid-cols-3 gap-px">
@@ -62,7 +62,7 @@ export default function Wine101() {
               <h3 className="text-xl font-sans font-bold text-[#2A0A0A] group-hover:text-[#2A0A0A]/60 transition-colors">
                 {article.title}
               </h3>
-              <p className="text-sm font-sans text-[#2A0A0A]/70">{article.description}</p>
+              <p className="text-sm font-sans font-medium text-[#2A0A0A]/70">{article.description}</p>
             </div>
           </motion.div>
         ))}

@@ -16,7 +16,7 @@ export default function PourAndPlay() {
       <div className="p-8 backdrop-blur-sm border border-[#2A0A0A]/20">
         <div className="flex items-center gap-2 text-[#2A0A0A]/80">
           <Tv className="h-5 w-5" />
-          <span className="font-serif italic">Pour & Play</span>
+          <span className="font-serif font-normal italic">Pour & Play</span>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-px">
@@ -48,9 +48,9 @@ export default function PourAndPlay() {
               </div>
             </div>
             <div className="p-8 space-y-4">
-              <div className="font-serif italic text-sm text-[#2A0A0A]/80">{video.type}</div>
+              <div className="font-serif font-normal italic text-sm text-[#2A0A0A]/80">{video.type}</div>
               <h3 className="text-xl font-sans font-bold text-[#2A0A0A]">{video.title}</h3>
-              <p className="text-sm font-sans text-[#2A0A0A]/70">{video.description}</p>
+              <p className="text-sm font-sans font-medium text-[#2A0A0A]/70">{video.description}</p>
             </div>
           </div>
         ))}

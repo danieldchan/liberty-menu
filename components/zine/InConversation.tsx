@@ -24,14 +24,14 @@ export default function InConversation() {
       <div className="space-y-4">
         <div className="flex items-center gap-2 text-[#2A0A0A]/80">
           <MessageSquare className="h-5 w-5" />
-          <span className="font-serif italic">In Conversation</span>
+          <span className="font-serif font-normal italic">In Conversation</span>
         </div>
         <h2 className="text-4xl font-sans font-bold text-[#2A0A0A]">
           Roberto Duran:
           <br />
           Sommelier Extraordinaire
         </h2>
-        <p className="font-inter text-[#2A0A0A]/70">
+        <p className="font-sans font-medium text-[#2A0A0A]/70">
           With over two decades of experience, Roberto Duran has elevated the art of wine curation to new heights. Known
           for his impeccable palate and passion for storytelling through wine, Roberto has become a guiding light for
           connoisseurs and casual drinkers alike. In this exclusive interview, he shares his journey from vineyard
@@ -39,7 +39,7 @@ export default function InConversation() {
           personal cellar.
         </p>
         <button className="group flex items-center gap-2 text-[#2A0A0A]/60 hover:text-[#2A0A0A] transition-colors">
-          <span className="font-serif italic">Read on</span>
+          <span className="font-serif font-normal italic">Read on</span>
           <span className="transition-transform group-hover:translate-x-1">→</span>
         </button>
       </div>
